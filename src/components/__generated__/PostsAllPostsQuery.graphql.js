@@ -8,12 +8,12 @@
 
 /*::
 import type { ConcreteRequest } from 'relay-runtime';
-type Post_Post$ref = any;
 export type PostsAllPostsQueryVariables = {||};
 export type PostsAllPostsQueryResponse = {|
-  +posts: {|
-    +$fragmentRefs: Post_Post$ref
-  |}
+  +posts: ?$ReadOnlyArray<?{|
+    +id: string,
+    +title: string,
+  |}>
 |};
 export type PostsAllPostsQuery = {|
   variables: PostsAllPostsQueryVariables,
@@ -25,41 +25,47 @@ export type PostsAllPostsQuery = {|
 /*
 query PostsAllPostsQuery {
   posts {
-    ...Post_Post
+    id
+    title
   }
-}
-
-fragment Post_Post on Post {
-  id
-  title
-  body
 }
 */
 
-const node/*: ConcreteRequest*/ = {
+const node/*: ConcreteRequest*/ = (function(){
+var v0 = [
+  {
+    "alias": null,
+    "args": null,
+    "concreteType": "Post",
+    "kind": "LinkedField",
+    "name": "posts",
+    "plural": true,
+    "selections": [
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "id",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "title",
+        "storageKey": null
+      }
+    ],
+    "storageKey": null
+  }
+];
+return {
   "fragment": {
     "argumentDefinitions": [],
     "kind": "Fragment",
     "metadata": null,
     "name": "PostsAllPostsQuery",
-    "selections": [
-      {
-        "alias": null,
-        "args": null,
-        "concreteType": "Post",
-        "kind": "LinkedField",
-        "name": "posts",
-        "plural": false,
-        "selections": [
-          {
-            "args": null,
-            "kind": "FragmentSpread",
-            "name": "Post_Post"
-          }
-        ],
-        "storageKey": null
-      }
-    ],
+    "selections": (v0/*: any*/),
     "type": "Query"
   },
   "kind": "Request",
@@ -67,50 +73,18 @@ const node/*: ConcreteRequest*/ = {
     "argumentDefinitions": [],
     "kind": "Operation",
     "name": "PostsAllPostsQuery",
-    "selections": [
-      {
-        "alias": null,
-        "args": null,
-        "concreteType": "Post",
-        "kind": "LinkedField",
-        "name": "posts",
-        "plural": false,
-        "selections": [
-          {
-            "alias": null,
-            "args": null,
-            "kind": "ScalarField",
-            "name": "id",
-            "storageKey": null
-          },
-          {
-            "alias": null,
-            "args": null,
-            "kind": "ScalarField",
-            "name": "title",
-            "storageKey": null
-          },
-          {
-            "alias": null,
-            "args": null,
-            "kind": "ScalarField",
-            "name": "body",
-            "storageKey": null
-          }
-        ],
-        "storageKey": null
-      }
-    ]
+    "selections": (v0/*: any*/)
   },
   "params": {
     "id": null,
     "metadata": {},
     "name": "PostsAllPostsQuery",
     "operationKind": "query",
-    "text": "query PostsAllPostsQuery {\n  posts {\n    ...Post_Post\n  }\n}\n\nfragment Post_Post on Post {\n  id\n  title\n  body\n}\n"
+    "text": "query PostsAllPostsQuery {\n  posts {\n    id\n    title\n  }\n}\n"
   }
 };
+})();
 // prettier-ignore
-(node/*: any*/).hash = '5b80dd3215b66a1369f5a508f40eec0c';
+(node/*: any*/).hash = 'a1c39950079f4acde97d098e3883f5a6';
 
 module.exports = node;

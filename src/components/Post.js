@@ -3,8 +3,20 @@ import { createFragmentContainer } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
 const Post = (props) => {
-  console.log(props.viewer.posts);
-  return <>kcfskcf</>;
+
+
+  return (
+    <div>
+      {" "}
+      {props.viewer.map((node) => {
+        return<>
+          <h1>{node.id} : </h1>
+          <h2>{node.title}</h2>
+        </>;
+      })}
+      ;
+    </div>
+  );
 };
 
 export default createFragmentContainer(Post, {
