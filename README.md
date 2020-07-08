@@ -1,3 +1,4 @@
+this repo using react relay and graphql it is implementing also the offline mode using service workers and persisting data into indexedDB . 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
