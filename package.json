@@ -8,9 +8,11 @@
     "@testing-library/user-event": "^7.2.1",
     "babel-plugin-relay": "^9.1.0",
     "graphql": "^15.1.0",
+    "idb": "^5.0.4",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-relay": "^9.1.0",
+    "react-relay-offline": "^2.2.0",
     "react-scripts": "3.4.1",
     "relay-compiler": "^9.1.0",
     "relay-config": "^9.1.0",
@@ -19,7 +21,9 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build-sw": "node ./src/sw-build.js",
+    "clean-cra-sw": "rm -f build/precache-manifest.*.js && rm -f build/service-worker.js",
+    "build": "react-scripts build && npm run build-sw && npm run clean-cra-sw",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "relay": "relay-compiler --src ./src --schema ./schema.graphql"

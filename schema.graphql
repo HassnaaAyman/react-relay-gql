@@ -4,8 +4,24 @@ type Post {
   body: String!
 }
 
-
-type Query {
-  posts: [Post]
+type User {
+  id: String!
+  name: String!
+  username: String!
 }
 
+input PostInput {
+userId: Int!
+title: String!
+body: String!
+}
+
+type Mutation {
+  addPost(data: PostInput!): [Post]
+}
+
+
+
+type Query {
+ posts : [Post]
+}

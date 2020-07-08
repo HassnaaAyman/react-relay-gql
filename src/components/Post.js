@@ -3,6 +3,7 @@ import { createFragmentContainer } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
 const Post = (props) => {
+console.log(props , "props");
 
 
   return (
