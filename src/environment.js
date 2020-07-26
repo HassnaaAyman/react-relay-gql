@@ -30,19 +30,18 @@
   
 //   export default environment;
 
-
+import { createMockEnvironment} from 'relay-test-utils'
 import {Network} from 'relay-runtime';
 
 //import {Environment, RecordSource, Store} from 'relay-runtime';
-import {Store, Environment, RecordSource} from 'react-relay-offline';
+import {Store, RecordSource} from 'react-relay-offline';
 import EnvironmentIDB from 'react-relay-offline/lib/runtime/EnvironmentIDB';
+require('dotenv').config()
 
 async function fetchQuery(
   operation,
   variables,
-  cacheConfig,
 ){
-  console.log('cacheConfig', cacheConfig);
   const response = await fetch('https://api.graphqlplaceholder.com/', {
     method: 'POST',
     headers: {
@@ -53,52 +52,55 @@ async function fetchQuery(
       variables,
     }),
   });
-
   return response.json();
 }
 
 const network = Network.create(fetchQuery);
 export const manualExecution = false;
-
-const environment = EnvironmentIDB.create({network}, {ttl: 60 * 1000}); //, {ttl: 60 * 1000}
+let environment;
+if(process.env.APP_ENVIRONMENT !== 'testing') {  
+  environment = EnvironmentIDB.create({network}, {ttl: 60 * 1000}); //, {ttl: 60 * 1000}
+  environment.setOfflineOptions({
+    manualExecution, //optional
+    network: network, //optional
+    start: async mutations => {
+      //optional
+      console.log('start offline', mutations);
+      return mutations;
+    },
+    finish: async (mutations, error) => {
+      //optional
+      console.log('finish offline', error, mutations);
+    },
+    onExecute: async mutation => {
+      //optional
+      console.log('onExecute offline', mutation);
+      return mutation;
+    },
+    onComplete: async options => {
+      //optional
+      console.log('onComplete offline', options);
+      return true;
+    },
+    onDiscard: async options => {
+      //optional
+      console.log('onDiscard offline', options);
+      return true;
+    },
+    onPublish: async offlinePayload => {
+      //optional
+      console.log('offlinePayload', offlinePayload);
+      return offlinePayload;
+    },
+  });
+} else {
+  environment = createMockEnvironment();
+}
 
 const recordSource = new RecordSource();
 const store = new Store(recordSource);
 store._cache.set('provainit', 'prova');
 // const environment = new Environment({network, store});
-environment.setOfflineOptions({
-  manualExecution, //optional
-  network: network, //optional
-  start: async mutations => {
-    //optional
-    console.log('start offline', mutations);
-    return mutations;
-  },
-  finish: async (mutations, error) => {
-    //optional
-    console.log('finish offline', error, mutations);
-  },
-  onExecute: async mutation => {
-    //optional
-    console.log('onExecute offline', mutation);
-    return mutation;
-  },
-  onComplete: async options => {
-    //optional
-    console.log('onComplete offline', options);
-    return true;
-  },
-  onDiscard: async options => {
-    //optional
-    console.log('onDiscard offline', options);
-    return true;
-  },
-  onPublish: async offlinePayload => {
-    //optional
-    console.log('offlinePayload', offlinePayload);
-    return offlinePayload;
-  },
-});
 /*
 const environment = new Environment({
   network,

@@ -5,8 +5,6 @@ import { RelayEnvironmentProvider } from "relay-hooks";
 import environment from "./environment";
 
  function App() {
-
-
   return (
     <RelayEnvironmentProvider environment={environment}>
       <div className="App">

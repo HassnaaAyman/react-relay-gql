@@ -1,8 +1,7 @@
 import React from "react";
 import graphql from "babel-plugin-relay/macro";
 import Post from "./Post";
-import { useQuery , useRestore} from "react-relay-offline";
-import environment from '../environment'
+import { useQuery } from "relay-hooks";
 // const PostsAllPostsQuery = graphql`
 //   mutation PostsAllPostsQuery($userId: Int!, $title: String!, $body: String!) {
 //     addPost(data: { userId: $userId, title: $title, body: $body }) {
@@ -12,7 +11,6 @@ import environment from '../environment'
 //     }
 //   }
 // `;
-
 const PostsAllPostsQuery = graphql`
   query PostsAllPostsQuery {
     posts {
@@ -23,8 +21,6 @@ const PostsAllPostsQuery = graphql`
 `;
 
 const Posts = () => {
-  const isRehydrated = useRestore(environment);
-
   const { props, error } = useQuery(
     PostsAllPostsQuery,
     {},
@@ -34,16 +30,15 @@ const Posts = () => {
     }
   );
   if (error) {
-    return <div>{error.message}</div>;
+    return <div data-testid='error-state'>{error.message}</div>;
   } else if (props) {
-    return <Post viewer={props.posts} />;
+    return (
+        <div data-testid='data-fetched'> 
+        <Post key={props.id} viewer={props.posts} />
+        </div>
+    );
   }
-  if (!isRehydrated) {
-    console.log("loading");
-    return <div />;
-  }
-
-  return <div>Loading</div>;
+  return <div data-testid='loading'>Loading...</div>;
 };
 
 export default Posts;

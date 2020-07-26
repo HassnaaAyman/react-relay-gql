@@ -1,4 +1,5 @@
 type Post {
+  key:String!
   id: String!
   title: String!
   body: String!

@@ -3,19 +3,17 @@ import { createFragmentContainer } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
 const Post = (props) => {
-console.log(props , "props");
-
-
   return (
     <div>
       {" "}
-      {props.viewer.map((node) => {
+      {props ?  
+       props.viewer.map((node) => {
         return<>
           <h1>{node.id} : </h1>
           <h2>{node.title}</h2>
         </>;
-      })}
-      ;
+      })
+      : <div>Hello, there</div>}
     </div>
   );
 };
@@ -23,6 +21,7 @@ console.log(props , "props");
 export default createFragmentContainer(Post, {
   Post: graphql`
     fragment Post_Post on Post {
+      key
       id
       title
       body
