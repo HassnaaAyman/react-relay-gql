@@ -2,6 +2,7 @@ import React from "react";
 import graphql from "babel-plugin-relay/macro";
 import Post from "./Post";
 import { useQuery } from "relay-hooks";
+
 // const PostsAllPostsQuery = graphql`
 //   mutation PostsAllPostsQuery($userId: Int!, $title: String!, $body: String!) {
 //     addPost(data: { userId: $userId, title: $title, body: $body }) {
@@ -11,6 +12,7 @@ import { useQuery } from "relay-hooks";
 //     }
 //   }
 // `;
+
 const PostsAllPostsQuery = graphql`
   query PostsAllPostsQuery {
     posts {
